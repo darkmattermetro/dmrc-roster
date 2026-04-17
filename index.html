@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DMRC Line 7 Roster</title>
+    <meta http-equiv="refresh" content="0;url=admin.html">
     <style>
         body { font-family: sans-serif; background: #1a1a2e; color: #fff; padding: 20px; margin: 0; text-align: center; }
         h1 { color: #00d4ff; }
-        .btn { display: block; width: 200px; margin: 20px auto; padding: 15px; border-radius: 10px; 
-              font-size: 16px; font-weight: bold; text-decoration: none; cursor: pointer; border: none; }
+        a { display: inline-block; margin: 20px; padding: 15px 30px; border-radius: 10px; 
+            font-size: 16px; font-weight: bold; text-decoration: none; }
         .blue { background: #00d4ff; color: #000; }
         .orange { background: #ff6b35; color: #fff; }
     </style>
@@ -16,8 +17,9 @@
 <body>
     <h1>🚇 DMRC LINE 7</h1>
     <p>Roster Master</p>
-    <a href="admin.html" class="btn orange">⚙️ ADMIN LOGIN</a>
-    <a href="#" class="btn blue" onclick="search()">🔍 SEARCH DUTY</a>
-    <script>function search(){alert('Search')}</script>
+    <br><br>
+    <a href="admin.html" class="orange">⚙️ ADMIN</a>
+    <a href="#" class="blue">🔍 SEARCH</a>
+    <script>document.write('<p>Loading...</p>');</script>
 </body>
 </html>
