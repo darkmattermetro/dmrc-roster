@@ -1,132 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DMRC Line 7 Roster Master</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
-            min-height: 100vh;
-            color: #fff;
-        }
-        .container { max-width: 400px; margin: 0 auto; padding: 20px; }
-        .header { text-align: center; padding: 40px 0; }
-        .logo {
-            width: 80px; height: 80px;
-            border: 3px solid #00d4ff;
-            border-radius: 16px;
-            margin: 0 auto 15px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 40px;
-        }
-        .title { font-size: 24px; font-weight: bold; color: #00d4ff; letter-spacing: 3px; }
-        .subtitle { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 5px; }
-        .card {
-            background: #1E1E32;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-        }
-        input, select {
-            width: 100%; padding: 15px;
-            background: rgba(0,0,0,0.3);
-            border: 2px solid #333;
-            border-radius: 12px;
-            color: #fff; font-size: 16px;
-            margin-bottom: 15px;
-        }
-        input:focus { border-color: #00d4ff; outline: none; }
-        .btn {
-            width: 100%; padding: 16px;
-            background: #00d4ff;
-            color: #000;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-        .btn-orange {
-            background: #ff6b35;
-            color: #fff;
-        }
-        .btn:hover { transform: translateY(-2px); }
-        .footer { text-align: center; padding: 20px; color: rgba(255,255,255,0.4); font-size: 11px; }
+        body { font-family: 'Segoe UI'; background: linear-gradient(135deg, #1a1a2e, #16162a); min-height: 100vh; color: #fff; padding: 20px; margin: 0; }
+        .logo { width: 80px; height: 80px; border: 3px solid #00d4ff; border-radius: 16px; margin: 30px auto 15px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+        h1 { text-align: center; color: #00d4ff; letter-spacing: 3px; margin: 0; }
+        h2 { text-align: center; color: rgba(255,255,255,0.6); font-size: 12px; font-weight: normal; margin: 5px 0 30px; }
+        .card { background: #1E1E32; border-radius: 20px; padding: 25px; margin: 0 auto 20px; max-width: 350px; border: 1px solid rgba(0,212,255,0.2); }
+        select, input { width: 100%; padding: 15px; background: rgba(0,0,0,0.3); border: 2px solid #333; border-radius: 12px; color: #fff; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; }
+        button { width: 100%; padding: 16px; border-radius: 12px; font-size: 14px; font-weight: bold; letter-spacing: 2px; cursor: pointer; border: none; }
+        .blue { background: #00d4ff; color: #000; }
+        .orange { background: #ff6b35; color: #fff; }
+        .footer { text-align: center; color: rgba(255,255,255,0.4); font-size: 11px; margin-top: 30px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">🚇</div>
-            <div class="title">DMRC LINE 7</div>
-            <div class="subtitle">ROSTER MASTER</div>
-        </div>
-        
-        <div class="card">
-            <select id="dayType">
-                <option value="weekday">Weekday</option>
-                <option value="saturday">Saturday</option>
-                <option value="sunday">Sunday</option>
-                <option value="special">Special</option>
-            </select>
-            <input type="text" id="dutyNo" placeholder="Duty Number (e.g. 101)" />
-            <button class="btn" onclick="searchDuty()">🔍 SEARCH DUTY</button>
-        </div>
-        
-        <button class="btn btn-orange" onclick="adminLogin()">⚙️ ADMIN LOGIN</button>
-        
-        <div class="footer">
-            DMRC Line 7 Roster Master • KKDA & PBGW Crew Control
-        </div>
+    <div class="logo">🚇</div>
+    <h1>DMRC LINE 7</h1>
+    <h2>ROSTER MASTER</h2>
+    
+    <div class="card">
+        <select id="dayType">
+            <option value="weekday">Weekday</option>
+            <option value="saturday">Saturday</option>
+            <option value="sunday">Sunday</option>
+            <option value="special">Special</option>
+        </select>
+        <input type="text" id="dutyNo" placeholder="Duty Number">
+        <button class="blue" onclick="search()">SEARCH DUTY</button>
     </div>
+    
+    <button class="orange" onclick="admin()">ADMIN LOGIN</button>
+    
+    <div class="footer">KKDA & PBGW Crew Control</div>
 
     <script>
-        const SUPABASE_URL = 'https://pmjiopmuvkkwsaurtzjo.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtamlvcG11dmtrd3NhdXJ0empvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MTE2MDQsImV4cCI6MjA5MTk4NzYwNH0.br5RGBnFW3E2D16qKxRrvPhcwL3wStZtf21ARzAf_NA';
-
-        function adminLogin() {
-            window.location.href = 'admin.html';
-        }
-
-        function searchDuty() {
-            const dayType = document.getElementById('dayType').value;
-            const dutyNo = document.getElementById('dutyNo').value.trim();
-            
-            if (!dutyNo) {
-                alert('Please enter duty number');
-                return;
-            }
-
-            fetch(`${SUPABASE_URL}/rest/v1/duties_${dayType}?duty_no=eq.${dutyNo}`, {
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`,
-                }
-            })
-            .then(r => r.json())
-            .then(data => {
-                if (data.length === 0) {
-                    alert(`Duty ${dutyNo} not found in ${dayType} roster`);
-                } else {
-                    let result = `DUTY: ${dutyNo}\n\n`;
-                    data.forEach((d, i) => {
-                        if (d.start_stn) {
-                            result += `${i+1}. ${d.start_stn} → ${d.end_stn} (${d.start_time}) Rake: ${d.rake_num}\n`;
-                        }
-                    });
-                    alert(result || 'No trip data found');
-                }
-            })
-            .catch(e => {
-                alert('Error: ' + e.message + '\nMake sure database is set up!');
-            });
-        }
+    function admin() { window.location.href = 'admin.html'; }
+    function search() {
+        const day = document.getElementById('dayType').value;
+        const duty = document.getElementById('dutyNo').value.trim();
+        if(!duty) { alert('Enter duty number'); return; }
+        alert('Searching for duty ' + duty + ' in ' + day + '...\nDatabase not set up yet!');
+    }
     </script>
 </body>
 </html>
