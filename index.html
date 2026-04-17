@@ -3,48 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DMRC Line 7 Roster Master</title>
+    <title>DMRC Line 7 Roster</title>
     <style>
-        body { font-family: 'Segoe UI'; background: linear-gradient(135deg, #1a1a2e, #16162a); min-height: 100vh; color: #fff; padding: 20px; margin: 0; }
-        .logo { width: 80px; height: 80px; border: 3px solid #00d4ff; border-radius: 16px; margin: 30px auto 15px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
-        h1 { text-align: center; color: #00d4ff; letter-spacing: 3px; margin: 0; }
-        h2 { text-align: center; color: rgba(255,255,255,0.6); font-size: 12px; font-weight: normal; margin: 5px 0 30px; }
-        .card { background: #1E1E32; border-radius: 20px; padding: 25px; margin: 0 auto 20px; max-width: 350px; border: 1px solid rgba(0,212,255,0.2); }
-        select, input { width: 100%; padding: 15px; background: rgba(0,0,0,0.3); border: 2px solid #333; border-radius: 12px; color: #fff; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; }
-        button { width: 100%; padding: 16px; border-radius: 12px; font-size: 14px; font-weight: bold; letter-spacing: 2px; cursor: pointer; border: none; }
+        body { font-family: sans-serif; background: #1a1a2e; color: #fff; padding: 20px; margin: 0; text-align: center; }
+        h1 { color: #00d4ff; }
+        .btn { display: block; width: 200px; margin: 20px auto; padding: 15px; border-radius: 10px; 
+              font-size: 16px; font-weight: bold; text-decoration: none; cursor: pointer; border: none; }
         .blue { background: #00d4ff; color: #000; }
         .orange { background: #ff6b35; color: #fff; }
-        .footer { text-align: center; color: rgba(255,255,255,0.4); font-size: 11px; margin-top: 30px; }
     </style>
 </head>
 <body>
-    <div class="logo">🚇</div>
-    <h1>DMRC LINE 7</h1>
-    <h2>ROSTER MASTER</h2>
-    
-    <div class="card">
-        <select id="dayType">
-            <option value="weekday">Weekday</option>
-            <option value="saturday">Saturday</option>
-            <option value="sunday">Sunday</option>
-            <option value="special">Special</option>
-        </select>
-        <input type="text" id="dutyNo" placeholder="Duty Number">
-        <button class="blue" onclick="search()">SEARCH DUTY</button>
-    </div>
-    
-    <button class="orange" onclick="admin()">ADMIN LOGIN</button>
-    
-    <div class="footer">KKDA & PBGW Crew Control</div>
-
-    <script>
-    function admin() { window.location.href = 'admin.html'; }
-    function search() {
-        const day = document.getElementById('dayType').value;
-        const duty = document.getElementById('dutyNo').value.trim();
-        if(!duty) { alert('Enter duty number'); return; }
-        alert('Searching for duty ' + duty + ' in ' + day + '...\nDatabase not set up yet!');
-    }
-    </script>
+    <h1>🚇 DMRC LINE 7</h1>
+    <p>Roster Master</p>
+    <a href="admin.html" class="btn orange">⚙️ ADMIN LOGIN</a>
+    <a href="#" class="btn blue" onclick="search()">🔍 SEARCH DUTY</a>
+    <script>function search(){alert('Search')}</script>
 </body>
 </html>
