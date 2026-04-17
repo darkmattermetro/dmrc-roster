@@ -46771,16 +46771,11 @@ r.push(j.a7T())
 r.push(B.aZ)
 r.push(new A.Ew(!0,j.gad0(),i,i,i,i,B.m,i,!1,i,!0,i,new A.a_D(B.ZO,B.IW,i,i,i),i))
 s=A.bH(i,A.vZ(!0,A.rL(A.cl(r,B.x,B.p,B.u),B.aA,B.ag),B.aK,!0),B.m,i,B.nq,i,i,i,i,i,i,i)}return A.Dj(h,B.bB,s,i)},
-a7y(){var s,r,q,p,o=this,n=null,m=t.p,l=A.cl(A.b([B.ZF,A.bo("KKDA & PBGW Crew Control",n,n,n,A.cM(n,n,A.a6(153,B.f.n()>>>16&255,B.f.n()>>>8&255,B.f.n()&255),n,n,n,n,n,n,n,n,10,n,n,n,n,n,!0,n,n,n,n,n,n,n,n),n,n)],m),B.a6,B.p,B.u),k=A.b([],m)
-if(o.a.c.d==="admin")k.push(A.ny(n,n,B.pg,n,n,new A.atq(o),n,n,"Admin Panel"))
-k.push(A.ny(n,n,B.pi,n,n,o.gafW(),n,n,"Refresh"))
-s=o.a.c
-r=A.bo(s.b,n,n,n,B.h4,n,n)
-s=s.d==="admin"?A.a6(51,B.aa.n()>>>16&255,B.aa.n()>>>8&255,B.aa.n()&255):A.a6(51,B.cx.n()>>>16&255,B.cx.n()>>>8&255,B.cx.n()&255)
-q=A.bQ(4)
-p=o.a.c.d
-k.push(new A.bO(B.HB,A.lL(n,A.dh(A.b([A.cl(A.b([r,A.bH(n,A.bo(p.toUpperCase(),n,n,n,A.cM(n,n,p==="admin"?B.aa:B.cx,n,n,n,n,n,n,n,n,8,n,n,n,n,n,!0,n,n,n,n,n,n,n,n),n,n),B.m,n,new A.bk(s,n,n,q,n,n,B.C),n,n,n,B.HQ,n,n,n)],m),B.dY,B.cd,B.u),B.ci,B.EY],m),B.x,B.p,B.u,0,n),B.az,!1,n,n,n,n,n,n,n,n,n,n,n,n,n,n,o.gakm(),n,n,n,n,n,n),n))
-return A.a33(k,B.bB,0,n,l)},
+a7y(){var s,r,q=this,p=null,o=t.p,n=A.cl(A.b([B.ZF,A.bo("KKDA & PBGW Crew Control",p,p,p,A.cM(p,p,A.a6(153,B.f.n()>>>16&255,B.f.n()>>>8&255,B.f.n()&255),p,p,p,p,p,p,p,p,10,p,p,p,p,p,!0,p,p,p,p,p,p,p,p),p,p)],o),B.a6,B.p,B.u),m=A.ny(p,p,B.pg,p,p,new A.atq(q),p,p,"Admin Panel"),l=A.ny(p,p,B.pi,p,p,q.gafW(),p,p,"Refresh"),k=q.a.c,j=A.bo(k.b,p,p,p,B.h4,p,p)
+k=k.d==="admin"?A.a6(51,B.aa.n()>>>16&255,B.aa.n()>>>8&255,B.aa.n()&255):A.a6(51,B.cx.n()>>>16&255,B.cx.n()>>>8&255,B.cx.n()&255)
+s=A.bQ(4)
+r=q.a.c.d
+return A.a33(A.b([m,l,new A.bO(B.HB,A.lL(p,A.dh(A.b([A.cl(A.b([j,A.bH(p,A.bo(r.toUpperCase(),p,p,p,A.cM(p,p,r==="admin"?B.aa:B.cx,p,p,p,p,p,p,p,p,8,p,p,p,p,p,!0,p,p,p,p,p,p,p,p),p,p),B.m,p,new A.bk(k,p,p,s,p,p,B.C),p,p,p,B.HQ,p,p,p)],o),B.dY,B.cd,B.u),B.ci,B.EY],o),B.x,B.p,B.u,0,p),B.az,!1,p,p,p,p,p,p,p,p,p,p,p,p,p,p,q.gakm(),p,p,p,p,p,p),p)],o),B.bB,0,p,n)},
 a7E(){var s=null,r=A.bQ(12),q=this.e,p=t.fo
 p=A.a2(new A.a1(B.pJ,new A.ats(),p),p.i("aq.E"))
 return A.cl(A.b([B.Zp,B.bN,A.bH(s,new A.uK(new A.uJ(p,q,new A.att(this),!0,B.aJ,B.hL,s,t.Af),s),B.m,s,new A.bk(B.dV,s,s,r,s,s,B.C),s,s,s,s,s,s,s)],t.p),B.a6,B.p,B.u)},
