@@ -4,22 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DMRC Line 7 Roster</title>
-    <meta http-equiv="refresh" content="0;url=admin.html">
     <style>
-        body { font-family: sans-serif; background: #1a1a2e; color: #fff; padding: 20px; margin: 0; text-align: center; }
-        h1 { color: #00d4ff; }
-        a { display: inline-block; margin: 20px; padding: 15px 30px; border-radius: 10px; 
-            font-size: 16px; font-weight: bold; text-decoration: none; }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #1a1a2e, #16162a); color: #fff; padding: 20px; margin: 0; text-align: center; }
+        h1 { color: #00d4ff; letter-spacing: 3px; }
+        .box { background: #1E1E32; border-radius: 15px; padding: 25px; margin: 20px auto; max-width: 300px; }
+        a { display: block; padding: 15px; margin: 10px 0; border-radius: 10px; font-size: 14px; font-weight: bold; text-decoration: none; }
         .blue { background: #00d4ff; color: #000; }
         .orange { background: #ff6b35; color: #fff; }
     </style>
 </head>
 <body>
     <h1>🚇 DMRC LINE 7</h1>
-    <p>Roster Master</p>
-    <br><br>
-    <a href="admin.html" class="orange">⚙️ ADMIN</a>
-    <a href="#" class="blue">🔍 SEARCH</a>
-    <script>document.write('<p>Loading...</p>');</script>
+    <p style="color:#888">Roster Master</p>
+    
+    <div class="box">
+        <input id="duty" placeholder="Duty Number" style="width:100%;padding:12px;background:rgba(0,0,0,0.3);border:none;border-radius:8px;color:#fff;font-size:14px;margin-bottom:10px">
+        <select id="day" style="width:100%;padding:12px;background:rgba(0,0,0,0.3);border:none;border-radius:8px;color:#fff;font-size:14px;margin-bottom:10px">
+            <option>Weekday</option>
+            <option>Saturday</option>
+            <option>Sunday</option>
+            <option>Special</option>
+        </select>
+        <a href="#" class="blue" onclick="search()">🔍 SEARCH DUTY</a>
+        <a href="admin.html" class="orange">⚙️ ADMIN LOGIN</a>
+    </div>
+
+    <script>
+    function search() {
+        const d = document.getElementById('duty').value;
+        if(!d) { alert('Enter duty number'); return; }
+        alert('Database not set up!\nSet up Supabase first.');
+    }
+    </script>
 </body>
 </html>
