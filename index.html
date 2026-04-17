@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>DMRC Line 7 Roster Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #00d4ff;
+            border-radius: 16px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #00d4ff;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 5px;
+            letter-spacing: 2px;
+        }
+        
+        /* Status Bar */
+        .status-bar {
+            background: linear-gradient(90deg, #00d4ff, #a855f7, #ff6b35);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        
+        /* Cards */
+        .card {
+            background: #1E1E32;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #00d4ff, #a855f7);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .card-title span {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        /* Form Elements */
+        label {
+            display: block;
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border: 2px solid #00d4ff;
+        }
+        
+        input[type="text"] {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 4px;
+        }
+        
+        /* Button */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #00b8e6;
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Result Section */
+        .result-card {
+            display: none;
+        }
+        
+        .result-header {
+            background: linear-gradient(90deg, #00d4ff, #a855f7);
+            padding: 15px;
+            border-radius: 12px 12px 0 0;
+            margin: -25px -25px 20px -25px;
+        }
+        
+        .result-header h3 {
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+        
+        /* Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-card {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .summary-card.cyan { border-color: rgba(0, 212, 255, 0.3); }
+        .summary-card.purple { border-color: rgba(168, 85, 247, 0.3); }
+        .summary-card.red { border-color: rgba(255, 107, 53, 0.3); }
+        
+        .summary-value {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .summary-label {
+            font-size: 10px;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 1px;
+        }
+        
+        /* Table */
+        .trip-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        
+        .trip-table th {
+            background: linear-gradient(90deg, #00d4ff, #a855f7);
+            padding: 12px 8px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .trip-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        
+        .trip-table tr:nth-child(even) {
+            background: rgba(0,0,0,0.2);
+        }
+        
+        .gap-row {
+            background: rgba(255, 0, 0, 0.2) !important;
+        }
+        
+        /* Rake Analysis */
+        .rake-alert {
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid rgba(255, 107, 53, 0.5);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .rake-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+        
+        .rake-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .rake-badge {
+            background: #ff6b35;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 212, 255, 0.3);
+            border-top-color: #00d4ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Message Banner */
+        .message-banner {
+            display: none;
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .message-banner span {
+            font-size: 24px;
+        }
+        
+        /* Error */
+        .error {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .error-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.4);
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">🚇</div>
+            <div class="title">DMRC LINE 7</div>
+            <div class="subtitle">ROSTER MASTER</div>
+        </div>
+        
+        <!-- Status Bar -->
+        <div class="status-bar">
+            ⚡ SYSTEM ONLINE • SAFETY FIRST • SERVICE ALWAYS
+        </div>
+        
+        <!-- Message Banner -->
+        <div class="message-banner" id="messageBanner">
+            <span>📢</span>
+            <div id="messageText"></div>
+        </div>
+        
+        <!-- Search Card -->
+        <div class="card">
+            <div class="card-title">
+                <div class="card-icon">🔍</div>
+                <span>Duty Finder</span>
+            </div>
+            
+            <label>SELECT DAY TYPE</label>
+            <select id="dayType">
+                <option value="Weekday">Weekday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+                <option value="Special">Special</option>
+            </select>
+            
+            <label>ENTER DUTY NUMBER</label>
+            <input type="text" id="dutyNo" placeholder="101" maxlength="10">
+            
+            <button class="btn" onclick="searchDuty()">
+                <span>🔍</span>
+                ACCESS DUTY DATA
+            </button>
+        </div>
+        
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>Loading duty data...</div>
+        </div>
+        
+        <!-- Error -->
+        <div class="error card" id="error">
+            <div class="error-icon">🔍</div>
+            <div id="errorText"></div>
+            <button class="btn" style="margin-top: 20px;" onclick="hideError()">
+                Go Back
+            </button>
+        </div>
+        
+        <!-- Result -->
+        <div class="card result-card" id="resultCard">
+            <div class="result-header">
+                <h3>DUTY <span id="resultDutyNo"></span></h3>
+            </div>
+            
+            <!-- Summary -->
+            <div class="summary-grid">
+                <div class="summary-card cyan">
+                    <div>🛣️</div>
+                    <div class="summary-value" id="totalKm" style="color: #00d4ff;">0</div>
+                    <div class="summary-label">TOTAL KM</div>
+                </div>
+                <div class="summary-card purple">
+                    <div>🚇</div>
+                    <div class="summary-value" id="totalTrips" style="color: #a855f7;">0</div>
+                    <div class="summary-label">TRIPS</div>
+                </div>
+                <div class="summary-card red">
+                    <div>⚠️</div>
+                    <div class="summary-value" id="xPoints" style="color: #ff6b35;">0</div>
+                    <div class="summary-label">X POINTS</div>
+                </div>
+            </div>
+            
+            <!-- Rake Analysis -->
+            <div id="rakeAnalysis"></div>
+            
+            <!-- Trip Table -->
+            <h4 style="margin: 20px 0 10px; color: #00d4ff; letter-spacing: 2px;">TRIP DETAILS</h4>
+            <div style="overflow-x: auto;">
+                <table class="trip-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>FROM</th>
+                            <th>TO</th>
+                            <th>TIME</th>
+                            <th>RAKE</th>
+                            <th>KM</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tripTableBody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <button class="btn" style="margin-top: 20px;" onclick="hideResult()">
+                ← New Search
+            </button>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            DMRC Line 7 Roster Master • KKDA & PBGW Crew Control
+        </div>
+    </div>
+
+    <script>
+        // KM Data from your spreadsheet
+        const kmData = {
+            'DDSC DN|KKDA DN': 26.22,
+            'DDSC DN PF|KKDA DN': 26.22,
+            'DDSC SDG|PBGW UP': 12.26,
+            'DDSC SDG|KKDA DN': 26.75,
+            'IPE|PBGW UP': 34.92,
+            'IPE|KKDA DN': 3.16,
+            'KKDA DN|SAKP': 27.26,
+            'KKDA DN|MUPR DN': 7.3,
+            'KKDA DN|MKPR': 20.67,
+            'KKDA DN|PBGW DN': 29.10,
+            'KKDA UP|PBGW UP': 38.08,
+            'KKDA UP|IPE': 3.16,
+            'KKDA UP|NZM': 13.26,
+            'MKPR|KKDA UP': 20.67,
+            'MKPR|PBGW DN': 8.43,
+            'MUPR|SVVR DN SDG': 4.0,
+            'PBGW DN|DDSC DN PF': 11.86,
+            'PBGW DN|DDSC SDG': 12.26,
+            'PBGW DN|IPE': 34.92,
+            'PBGW DN|KKDA DN': 38.08,
+            'PBGW UP|KKDA UP': 29.10,
+            'PBGW UP|MUPR': 21.79,
+            'PBGW UP|MKPR': 8.43,
+            'SVVR DN|KKDA UP': 11.91,
+            'NZM|MVPO DN': 6.31,
+            'SAKP 3RD|KKDA DN': 27.26,
+            'MVPO DN|KKDA UP': 6.31,
+            'SVVR DN|MUPR': 4.0,
+            'MUPR 3RD SDG|KKDA UP': 7.7,
+            'MUPR 4TH|KKDA UP': 7.3,
+        };
+        
+        // Duty data (sample from your spreadsheet)
+        const dutiesData = {
+            'Weekday': [
+                { dutyNo: '201', signOnTime: '04:40', signOnLoc: 'SAKP 3RD', signOffTime: '11:14', signOffLoc: 'PBGW UP', depLoc: 'SAKP 3RD', depTime: '05:05', arrLoc: 'PBGW DN', arrTime: '05:33', rake: '701' },
+                { dutyNo: '201', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW DN', depTime: '05:33', arrLoc: 'KKDA DN', arrTime: '06:47', rake: '701' },
+                { dutyNo: '201', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA DN', depTime: '06:47', arrLoc: 'PBGW DN', arrTime: '07:42', rake: '701' },
+                { dutyNo: '201', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW UP', depTime: '09:04', arrLoc: 'KKDA UP', arrTime: '09:57', rake: '722' },
+                { dutyNo: '201', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA UP', depTime: '09:57', arrLoc: 'PBGW UP', arrTime: '11:04', rake: '722' },
+                
+                { dutyNo: '202', signOnTime: '04:50', signOnLoc: 'MKPR', signOffTime: '11:00', signOffLoc: 'MKPR', depLoc: 'MKPR', depTime: '05:05', arrLoc: 'KKDA UP', arrTime: '06:15', rake: '710' },
+                { dutyNo: '202', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA UP', depTime: '06:15', arrLoc: 'PBGW UP', arrTime: '07:21', rake: '710' },
+                { dutyNo: '202', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW UP', depTime: '08:17', arrLoc: 'KKDA UP', arrTime: '09:11', rake: '736' },
+                { dutyNo: '202', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA DN', depTime: '10:12', arrLoc: 'MKPR', arrTime: '10:50', rake: '721' },
+                
+                { dutyNo: '203', signOnTime: '04:49', signOnLoc: 'DDSC SDG', signOffTime: '12:08', signOffLoc: 'PBGW DN', depLoc: 'DDSC SDG', depTime: '05:14', arrLoc: 'PBGW UP', arrTime: '06:06', rake: '708' },
+                { dutyNo: '203', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW UP', depTime: '06:06', arrLoc: 'KKDA UP', arrTime: '07:04', rake: '708' },
+                { dutyNo: '203', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA UP', depTime: '07:04', arrLoc: 'PBGW UP', arrTime: '08:10', rake: '708' },
+                { dutyNo: '203', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW DN', depTime: '09:09', arrLoc: 'KKDA DN', arrTime: '10:15', rake: '715' },
+                { dutyNo: '203', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA DN', depTime: '11:05', arrLoc: 'PBGW DN', arrTime: '11:58', rake: '711' },
+                
+                { dutyNo: '204', signOnTime: '04:49', signOnLoc: 'DDSC DN', signOffTime: '12:45', signOffLoc: 'MKPR', depLoc: 'DDSC DN', depTime: '05:14', arrLoc: 'KKDA DN', arrTime: '06:39', rake: '705' },
+                { dutyNo: '204', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA DN', depTime: '06:39', arrLoc: 'PBGW DN', arrTime: '07:29', rake: '705' },
+                { dutyNo: '204', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW UP', depTime: '08:44', arrLoc: 'KKDA UP', arrTime: '09:37', rake: '720' },
+                { dutyNo: '204', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA DN', depTime: '10:18', arrLoc: 'SAKP', arrTime: '11:35', rake: '723' },
+                
+                { dutyNo: '901', signOnTime: '04:50', signOnLoc: 'MUPR DN', signOffTime: '12:50', signOffLoc: 'KKDA DN', depLoc: 'MUPR DN', depTime: '05:15', arrLoc: 'PBGW DN', arrTime: '06:14', rake: '703' },
+                { dutyNo: '901', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW DN', depTime: '06:14', arrLoc: 'KKDA DN', arrTime: '07:20', rake: '703' },
+                { dutyNo: '901', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA DN', depTime: '08:10', arrLoc: 'PBGW DN', arrTime: '09:03', rake: '741' },
+                { dutyNo: '901', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW DN', depTime: '09:03', arrLoc: 'KKDA DN', arrTime: '10:09', rake: '741' },
+                { dutyNo: '901', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW DN', depTime: '10:40', arrLoc: 'KKDA DN', arrTime: '11:33', rake: '745' },
+                { dutyNo: '901', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW DN', depTime: '11:33', arrLoc: 'KKDA DN', arrTime: '12:39', rake: '745' },
+                
+                { dutyNo: '401', signOnTime: '04:55', signOnLoc: 'MUPR 3RD SDG', signOffTime: '12:11', signOffLoc: 'KKDA DN', depLoc: 'MUPR 3RD SDG', depTime: '05:20', arrLoc: 'KKDA UP', arrTime: '06:31', rake: '704' },
+                { dutyNo: '401', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA UP', depTime: '06:31', arrLoc: 'PBGW UP', arrTime: '07:37', rake: '704' },
+                { dutyNo: '401', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW UP', depTime: '08:30', arrLoc: 'KKDA UP', arrTime: '09:24', rake: '718' },
+                { dutyNo: '401', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA DN', depTime: '10:02', arrLoc: 'PBGW DN', arrTime: '10:55', rake: '733' },
+                { dutyNo: '401', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW DN', depTime: '10:55', arrLoc: 'KKDA DN', arrTime: '12:01', rake: '733' },
+                
+                { dutyNo: '402', signOnTime: '05:10', signOnLoc: 'IPE', signOffTime: '13:09', signOffLoc: 'KKDA DN', depLoc: 'IPE', depTime: '05:25', arrLoc: 'KKDA DN', arrTime: '05:41', rake: '729' },
+                { dutyNo: '402', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA DN', depTime: '05:41', arrLoc: 'PBGW DN', arrTime: '06:39', rake: '729' },
+                { dutyNo: '402', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW DN', depTime: '06:39', arrLoc: 'KKDA DN', arrTime: '07:45', rake: '729' },
+                { dutyNo: '402', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'KKDA UP', depTime: '08:51', arrLoc: 'PBGW UP', arrTime: '09:57', rake: '737' },
+                { dutyNo: '402', signOnTime: '', signOnLoc: '', signOffTime: '', signOffLoc: '', depLoc: 'PBGW DN', depTime: '10:30', arrLoc: 'KKDA DN', arrTime: '11:36', rake: '737' },
+            ],
+            'Saturday': [],
+            'Sunday': [],
+            'Special': []
+        };
+        
+        // Get KM between stations
+        function getKm(from, to) {
+            const key1 = `${from}|${to}`;
+            const key2 = `${to}|${from}`;
+            return kmData[key1] || kmData[key2] || 0;
+        }
+        
+        // Time to minutes
+        function timeToMins(time) {
+            if (!time || !time.includes(':')) return -1;
+            const parts = time.split(':');
+            return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+        }
+        
+        // Search duty
+        function searchDuty() {
+            const dayType = document.getElementById('dayType').value;
+            const dutyNo = document.getElementById('dutyNo').value.trim();
+            
+            if (!dutyNo) {
+                alert('Please enter duty number');
+                return;
+            }
+            
+            document.querySelector('.card').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            
+            setTimeout(() => {
+                const duties = dutiesData[dayType].filter(d => 
+                    d.dutyNo === dutyNo && d.depLoc
+                );
+                
+                if (duties.length === 0) {
+                    showError(`Duty '${dutyNo}' not found in ${dayType} roster.`);
+                    return;
+                }
+                
+                displayResult(duties, dutyNo);
+            }, 500);
+        }
+        
+        // Display result
+        function displayResult(duties, dutyNo) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('resultCard').style.display = 'block';
+            document.getElementById('resultDutyNo').textContent = dutyNo;
+            
+            // Calculate totals
+            let totalKm = 0;
+            let rakeGaps = [];
+            const rakeTrips = {};
+            
+            duties.forEach(d => {
+                if (d.rake) {
+                    const km = getKm(d.depLoc, d.arrLoc);
+                    totalKm += km;
+                    
+                    if (!rakeTrips[d.rake]) rakeTrips[d.rake] = [];
+                    rakeTrips[d.rake].push(d);
+                }
+            });
+            
+            // Find gaps
+            Object.keys(rakeTrips).forEach(rake => {
+                const trips = rakeTrips[rake].sort((a, b) => 
+                    timeToMins(a.depTime) - timeToMins(b.depTime)
+                );
+                
+                for (let i = 0; i < trips.length - 1; i++) {
+                    const gap = timeToMins(trips[i].arrTime) - timeToMins(trips[i + 1].depTime);
+                    if (gap > 5) {
+                        rakeGaps.push({
+                            rake: rake,
+                            time: trips[i].arrTime,
+                            location: trips[i].arrLoc,
+                            gap: gap
+                        });
+                    }
+                }
+            });
+            
+            // Update summary
+            document.getElementById('totalKm').textContent = totalKm.toFixed(2);
+            document.getElementById('totalTrips').textContent = duties.filter(d => d.rake).length;
+            document.getElementById('xPoints').textContent = rakeGaps.length;
+            
+            // Rake analysis
+            const rakeAnalysisEl = document.getElementById('rakeAnalysis');
+            if (rakeGaps.length > 0) {
+                rakeAnalysisEl.innerHTML = `
+                    <div class="rake-alert">
+                        <div class="rake-alert-header">
+                            <span>⚠️</span>
+                            <span>Reliever Points (X)</span>
+                        </div>
+                        ${rakeGaps.map(g => `
+                            <div class="rake-item">
+                                <span class="rake-badge">X</span>
+                                <div>
+                                    <div style="font-weight: bold;">${g.rake} @ ${g.location}</div>
+                                    <div style="font-size: 11px; color: rgba(255,255,255,0.6);">Gap: ${g.gap} min</div>
+                                </div>
+                                <div style="margin-left: auto; color: #ff6b35; font-weight: bold;">${g.time}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                rakeAnalysisEl.innerHTML = `
+                    <div class="rake-alert" style="background: rgba(34, 197, 94, 0.2); border-color: rgba(34, 197, 94, 0.5);">
+                        <div class="rake-alert-header" style="color: #22c55e;">
+                            <span>✅</span>
+                            <span>No Relievers Required</span>
+                        </div>
+                        <div style="color: rgba(255,255,255,0.7); font-size: 12px;">All rakes are continuous</div>
+                    </div>
+                `;
+            }
+            
+            // Trip table
+            const tbody = document.getElementById('tripTableBody');
+            tbody.innerHTML = duties.map((d, i) => {
+                const km = getKm(d.depLoc, d.arrLoc);
+                const isGap = rakeGaps.some(g => g.rake === d.rake && g.time === d.arrTime);
+                return `
+                    <tr class="${isGap ? 'gap-row' : ''}">
+                        <td>${i + 1}</td>
+                        <td style="font-weight: bold;">${d.depLoc}</td>
+                        <td style="font-weight: bold;">${d.arrLoc}</td>
+                        <td style="color: #ff6b35; font-weight: bold;">${d.depTime}</td>
+                        <td style="color: #00d4ff;">${d.rake || '-'}</td>
+                        <td style="color: #22c55e;">${km > 0 ? km.toFixed(1) : '-'}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        // Show error
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('errorText').textContent = message;
+        }
+        
+        // Hide error
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+            document.querySelector('.card').style.display = 'block';
+        }
+        
+        // Hide result
+        function hideResult() {
+            document.getElementById('resultCard').style.display = 'none';
+            document.querySelector('.card').style.display = 'block';
+            document.getElementById('dutyNo').value = '';
+        }
+        
+        // Enter key to search
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('dutyNo').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchDuty();
+            });
+        });
+    </script>
+</body>
+</html>
