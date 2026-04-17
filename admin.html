@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMRC Admin Panel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding: 30px 0; }
+        .logo {
+            width: 80px; height: 80px;
+            border: 3px solid #ff6b35;
+            border-radius: 16px;
+            margin: 0 auto 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 40px;
+        }
+        .title { font-size: 22px; font-weight: bold; color: #ff6b35; letter-spacing: 3px; }
+        .subtitle { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 5px; }
+        .nav { display: flex; background: #1E1E32; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+        .nav-tab {
+            flex: 1; padding: 15px; text-align: center;
+            cursor: pointer; font-size: 12px; letter-spacing: 1px;
+        }
+        .nav-tab.active { background: #ff6b35; color: #000; font-weight: bold; }
+        .card {
+            background: #1E1E32;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,107,53,0.2);
+        }
+        .card-title { font-size: 16px; font-weight: bold; color: #ff6b35; margin-bottom: 20px; }
+        label { display: block; font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 2px; margin-bottom: 8px; }
+        textarea, input, select {
+            width: 100%; padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: none;
+            border-radius: 12px;
+            color: #fff; font-size: 14px;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+        .btn {
+            width: 100%; padding: 16px;
+            background: #ff6b35;
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+        .btn:disabled { background: #666; cursor: not-allowed; }
+        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+        .stat-card {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-value { font-size: 28px; font-weight: bold; color: #ff6b35; }
+        .stat-label { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 1px; margin-top: 5px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .alert { padding: 15px; border-radius: 12px; margin-bottom: 15px; display: none; }
+        .success { background: rgba(34,197,94,0.2); border: 1px solid rgba(34,197,94,0.3); }
+        .error { background: rgba(255,0,0,0.2); border: 1px solid rgba(255,0,0,0.3); }
+        .footer { text-align: center; padding: 20px; color: rgba(255,255,255,0.4); font-size: 11px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">⚙️</div>
+            <div class="title">ADMIN PANEL</div>
+            <div class="subtitle">DMRC Line 7 Roster Master</div>
+        </div>
+        
+        <div class="nav">
+            <div class="nav-tab active" onclick="showTab('dashboard')">📊 Dashboard</div>
+            <div class="nav-tab" onclick="showTab('messages')">📢 Messages</div>
+            <div class="nav-tab" onclick="showTab('upload')">📤 Upload</div>
+        </div>
+        
+        <!-- Dashboard -->
+        <div id="dashboard" class="tab-content active">
+            <div class="card">
+                <div class="card-title">📊 Overview</div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalRows">0</div>
+                        <div class="stat-label">TOTAL ROWS</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalDuties">0</div>
+                        <div class="stat-label">UNIQUE DUTIES</div>
+                    </div>
+                </div>
+                <button class="btn" onclick="refreshStats()">🔄 Refresh Stats</button>
+            </div>
+        </div>
+        
+        <!-- Messages -->
+        <div id="messages" class="tab-content">
+            <div class="card">
+                <div class="card-title">📢 Banner Message</div>
+                <div class="alert success" id="msgSuccess">✅ Updated!</div>
+                <div class="alert error" id="msgError">❌ Error</div>
+                <textarea id="bannerMessage" rows="3" placeholder="Enter message..."></textarea>
+                <button class="btn" onclick="saveMessages()">💾 Save Message</button>
+            </div>
+        </div>
+        
+        <!-- Upload -->
+        <div id="upload" class="tab-content">
+            <div class="card">
+                <div class="card-title">📤 Upload CSV</div>
+                <div class="alert success" id="uploadSuccess">✅ Uploaded!</div>
+                <div class="alert error" id="uploadError">❌ Error</div>
+                <label>Day Type</label>
+                <select id="uploadDayType">
+                    <option value="weekday">Weekday</option>
+                    <option value="saturday">Saturday</option>
+                    <option value="sunday">Sunday</option>
+                    <option value="special">Special</option>
+                </select>
+                <label>CSV File</label>
+                <input type="file" id="csvFile" accept=".csv" />
+                <button class="btn" onclick="uploadData()">📤 Upload CSV</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            DMRC Line 7 Admin • Roster Master
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://pmjiopmuvkkwsaurtzjo.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtamlvcG11dmtrd3NhdXJ0empvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MTE2MDQsImV4cCI6MjA5MTk4NzYwNH0.br5RGBnFW3E2D16qKxRrvPhcwL3wStZtf21ARzAf_NA';
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function refreshStats() {
+            let totalRows = 0;
+            let uniqueDuties = new Set();
+            
+            for (const type of ['weekday', 'saturday', 'sunday', 'special']) {
+                try {
+                    const response = await fetch(`${SUPABASE_URL}/rest/v1/duties_${type}?select=id,duty_no`, {
+                        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+                    });
+                    const data = await response.json();
+                    if (data) {
+                        totalRows += data.length;
+                        data.forEach(d => uniqueDuties.add(d.duty_no));
+                    }
+                } catch (e) { console.log(e); }
+            }
+            
+            document.getElementById('totalRows').textContent = totalRows;
+            document.getElementById('totalDuties').textContent = uniqueDuties.size;
+        }
+
+        async function saveMessages() {
+            const banner = document.getElementById('bannerMessage').value;
+            try {
+                await fetch(`${SUPABASE_URL}/rest/v1/messages?id=eq.1`, {
+                    method: 'PATCH',
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_message: banner, updated_at: new Date().toISOString() })
+                });
+                document.getElementById('msgSuccess').style.display = 'block';
+            } catch (e) {
+                document.getElementById('msgError').style.display = 'block';
+            }
+        }
+
+        async function uploadData() {
+            const file = document.getElementById('csvFile').files[0];
+            if (!file) { alert('Select a CSV file'); return; }
+            
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const content = e.target.result;
+                const rows = content.split('\n').map(row => row.split(','));
+                
+                const headerMap = {
+                    'duty_no': ['duty no', 'duty_no', 'duty'],
+                    'sign_on_time': ['sign on time', 'sign_on_time'],
+                    'sign_on_loc': ['sign on loc', 'sign_on_loc'],
+                    'sign_off_time': ['sign off time', 'sign_off_time'],
+                    'sign_off_loc': ['sign off loc', 'sign_off_loc'],
+                    'rake_num': ['rake num', 'rake_num', 'rake'],
+                    'start_stn': ['start stn', 'start_stn'],
+                    'start_time': ['start time', 'start_time'],
+                    'end_stn': ['end stn', 'end_stn'],
+                    'end_time': ['end time', 'end_time']
+                };
+                
+                const rawHeaders = rows[0].map(h => h.trim().toLowerCase());
+                const headerMapping = {};
+                
+                rawHeaders.forEach((h, i) => {
+                    for (const [dbCol, aliases] of Object.entries(headerMap)) {
+                        if (aliases.includes(h)) { headerMapping[i] = dbCol; break; }
+                    }
+                });
+                
+                const allCols = ['duty_no','sign_on_time','sign_on_loc','sign_off_time','sign_off_loc','driving_hrs','duty_hrs','same_jurisdiction','rake_num','start_stn','start_time','end_stn','end_time','service_duration','break_time','stepback_rake'];
+                
+                const data = rows.slice(1).filter(row => row.length > 1).map(row => {
+                    const obj = {}; allCols.forEach(c => obj[c] = '');
+                    for (const [idx, colName] of Object.entries(headerMapping)) {
+                        if (row[idx]) obj[colName] = row[idx].trim();
+                    }
+                    return obj;
+                }).filter(obj => obj.duty_no);
+                
+                const dayType = document.getElementById('uploadDayType').value;
+                const tableName = `duties_${dayType}`;
+                
+                try {
+                    await fetch(`${SUPABASE_URL}/rest/v1/${tableName}?id=gt.0`, {
+                        method: 'DELETE',
+                        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+                    });
+                    
+                    for (let i = 0; i < data.length; i += 100) {
+                        const batch = data.slice(i, i + 100);
+                        await fetch(`${SUPABASE_URL}/rest/v1/${tableName}`, {
+                            method: 'POST',
+                            headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify(batch)
+                        });
+                    }
+                    
+                    document.getElementById('uploadSuccess').style.display = 'block';
+                    refreshStats();
+                } catch (e) {
+                    document.getElementById('uploadError').textContent = 'Error: ' + e.message;
+                    document.getElementById('uploadError').style.display = 'block';
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        refreshStats();
+    </script>
+</body>
+</html>
